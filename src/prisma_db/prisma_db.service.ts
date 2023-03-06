@@ -1,10 +1,7 @@
-
-
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClient } from '@prisma/client';
 import { url } from 'inspector';
-
 
 @Injectable()
 export class PrismaDbService extends PrismaClient {
@@ -18,24 +15,21 @@ export class PrismaDbService extends PrismaClient {
     });
   }
 
-  createUser(){
-    const user = this.user.create(
-      {data:{
-        name:"ibrahim"
-      }}
-    )
-    console.log(user)
+  createUser() {
+    const user = this.user.create({
+      data: {
+        email: 'ee',
+      },
+    });
+    console.log(user);
   }
 
   cleanDb() {
-    
     //this.$transaction([])
-    this.user.deleteMany()
-    .then(()=>{this.$disconnect()})
-      
+    this.user.deleteMany().then(() => {
+      this.$disconnect();
+    });
 
-    
     return;
   }
 }
- 
