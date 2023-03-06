@@ -6,9 +6,4 @@ import { UserController } from './user.controller';
   providers: [UserService],
   controllers: [UserController],
 })
-@Controller('user')
-export class UserModule {
-  constructor(private userService: UserService) {
-    //
-  }
-}
+export class UserModule {}
