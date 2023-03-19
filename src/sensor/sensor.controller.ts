@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import {SensorData} from "./dto"
+
 import { SensorService } from './sensor.service';
 
 @Controller('sensor')
@@ -9,12 +11,12 @@ export class SensorController {
   }
 
   @Post('newReading')
-  addReading(@Body() sensor: any) {
+  addReading(@Body() sensor: SensorData) {
     return this.sensorService.addReading(sensor);
   }
 
   @Get('id')
-  getAllReadings(@Param('id') id: number) {
+  getAllReadings(@Param('id') id: string) {
     return this.sensorService.getReadings(id);
   }
 }

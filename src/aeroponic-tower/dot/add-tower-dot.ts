@@ -5,7 +5,7 @@ export type AddAeroponicTowerDot = {
 };
 
 export type changePumpIntervalDto = {
-  AeroponicTowerID: number;
+  AeroponicTowerID: string;
   timeOff: number;
   timeOn: number;
 };
