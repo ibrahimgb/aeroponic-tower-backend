@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaDbService } from 'src/prisma_db/prisma_db.service';
-import { SensorData } from '@prisma/client';
-import {SensorData as FetchedSensorData} from "./dto"
+import { SensorData as FetchedSensorData } from './dto';
 
 @Injectable()
 export class SensorService {
@@ -12,63 +11,89 @@ export class SensorService {
       where: {
         id: reading.AeroponicTowerId,
       },
-    })
-    try{
+    });
+    try {
       const pumpInterval = await this.prisma.pumpInterval.create({
         data: {
-          id:1,
-          timeOff:25,
-          timeOn:15
+          id: 1,
+          timeOff: 25,
+          timeOn: 15,
         },
-      })
-    }catch (error) {
+      });
+    } catch (error) {
       // console.error(error);
     }
-    if(!airoponicTower){
+    if (!airoponicTower) {
       const newAiroponicTower = await this.prisma.aeroponicTower.create({
         data: {
-          id:reading.AeroponicTowerId,
-          pumpIntervalID: 1
+          id: reading.AeroponicTowerId,
+          pumpIntervalID: 1,
         },
-      })
+      });
     }
     console.log(airoponicTower);
-    let time = new Date(0); 
+    let time = new Date(0);
     time.setUTCSeconds(reading.epochTime);
     const newReading = await this.prisma.sensorData.create({
       data: {
         aeroponicTowerID: reading.AeroponicTowerId,
-        envTemp : reading.envTempAndHumidity.temperature,
+        envTemp: reading.envTempAndHumidity.temperature,
         envHumidity: reading.envTempAndHumidity.humidity,
         insideTemp: reading.insideTempAndHumidity.temperature,
         insideHumidity: reading.insideTempAndHumidity.humidity,
         uvLight: reading.uvLight,
         waterNeedsRefilling: reading.waterNeedsRefilling,
         pumpIsWorking: reading.pumpIsWorking,
-        timeCaptured: time
+        timeCaptured: time,
       },
     });
     const aeroponicTower = await this.prisma.aeroponicTower.findUnique({
       where: {
-        id:reading.AeroponicTowerId
+        id: reading.AeroponicTowerId,
       },
     });
     const pumpInterval = await this.prisma.pumpInterval.findUnique({
       where: {
-        id:aeroponicTower.pumpIntervalID
+        id: aeroponicTower.pumpIntervalID,
       },
     });
 
-
-    return {timeOn : pumpInterval.timeOn,
-            timeOff: pumpInterval.timeOff}
+    return { timeOn: pumpInterval.timeOn, timeOff: pumpInterval.timeOff };
   }
 
-  async getReadings(id: string) {
+  async getReadings(startDate: string, endDate: string, towerId: string) {
+    console.log('startDate');
+    console.log(startDate);
+    console.log('endDate');
+    console.log(endDate);
+
+    console.log('towerId');
+    console.log(towerId);
+
     const readings = await this.prisma.sensorData.findMany({
       where: {
-        aeroponicTowerID: id,
+        timeCaptured: {
+          lte: new Date(endDate).toISOString(), // "2022-01-30T00:00:00.000Z"
+          gte: new Date(startDate).toISOString(), // "2022-01-15T00:00:00.000Z"
+        },
+        aeroponicTowerID: towerId,
       },
     });
+
+    return readings;
+  }
+
+  async getLastReadings(towerId: string) {
+    const readings = await this.prisma.sensorData.findMany({
+      where: {
+        aeroponicTowerID: towerId,
+      },
+      orderBy: {
+        timeCaptured: 'desc',
+      },
+      take: 2,
+    });
+
+    return readings;
   }
 }

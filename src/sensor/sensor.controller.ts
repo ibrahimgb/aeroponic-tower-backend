@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
-import {SensorData} from "./dto"
+import { SensorData } from './dto';
 
 import { SensorService } from './sensor.service';
 
@@ -15,8 +15,17 @@ export class SensorController {
     return this.sensorService.addReading(sensor);
   }
 
-  @Get('id')
-  getAllReadings(@Param('id') id: string) {
-    return this.sensorService.getReadings(id);
+  @Get('getReadings')
+  getAllReadings(
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+    @Query('towerId') towerId: string,
+  ) {
+    return this.sensorService.getReadings(startDate, endDate, towerId);
+  }
+
+  @Get('getLastReadings')
+  getLastReading(@Query('towerId') towerId: string) {
+    return this.sensorService.getLastReadings(towerId);
   }
 }
