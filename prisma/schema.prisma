@@ -34,6 +34,7 @@ model PumpInterval {
 
 model AeroponicTower {
   id             String @unique
+  name  String
   size           Int? @default(8)
   content        String? @default("nothing yet")
   SensorData     SensorData[]
@@ -46,11 +47,14 @@ model AeroponicTower {
 
 model SensorData {
   aeroponicTowerID String
+
   envTemp Float
   envHumidity Float
 
   insideTemp Float
   insideHumidity Float
+
+  waterTemperature Float
 
   uvLight Float
   waterNeedsRefilling Boolean
