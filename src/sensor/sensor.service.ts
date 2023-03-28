@@ -34,9 +34,10 @@ export class SensorService {
     console.log(airoponicTower);
     let time = new Date(0);
     time.setUTCSeconds(reading.epochTime);
+    const id: string = reading.AeroponicTowerId;
     const newReading = await this.prisma.sensorData.create({
       data: {
-        aeroponicTowerID: reading.AeroponicTowerId,
+        aeroponicTowerID: id,
         envTemp: reading.envTempAndHumidity.temperature,
         envHumidity: reading.envTempAndHumidity.humidity,
         insideTemp: reading.insideTempAndHumidity.temperature,
@@ -45,6 +46,7 @@ export class SensorService {
         waterNeedsRefilling: reading.waterNeedsRefilling,
         pumpIsWorking: reading.pumpIsWorking,
         timeCaptured: time,
+        waterTemperature: reading.waterTemperature,
       },
     });
     const aeroponicTower = await this.prisma.aeroponicTower.findUnique({

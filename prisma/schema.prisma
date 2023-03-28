@@ -28,18 +28,17 @@ model PumpInterval {
   timeOn      Int     @default(15)
   description String?
 
-
   AeroponicTower AeroponicTower[]
 }
 
 model AeroponicTower {
-  id             String @unique
-  name  String
-  size           Int? @default(8)
-  content        String? @default("nothing yet")
+  id             String       @unique
+  name           String?
+  size           Int?         @default(8)
+  content        String?      @default("nothing yet")
   SensorData     SensorData[]
-  pumpIntervalID Int @default(1)
-  PumpInterval PumpInterval @relation(fields: [pumpIntervalID],references: [id])
+  pumpIntervalID Int          @default(1)
+  PumpInterval   PumpInterval @relation(fields: [pumpIntervalID], references: [id])
 
   //PumpIntervalID Int
   //pumpInterval   PumpInterval @relation(fields: [PumpIntervalID], references: [id])
@@ -48,19 +47,19 @@ model AeroponicTower {
 model SensorData {
   aeroponicTowerID String
 
-  envTemp Float
+  envTemp     Float
   envHumidity Float
 
-  insideTemp Float
+  insideTemp     Float
   insideHumidity Float
 
   waterTemperature Float
 
-  uvLight Float
+  uvLight             Float
   waterNeedsRefilling Boolean
-  pumpIsWorking Boolean
-  timeCaptured     DateTime     
-  aeroponicTower   AeroponicTower @relation(fields: [aeroponicTowerID], references: [id])
+  pumpIsWorking       Boolean
+  timeCaptured        DateTime
+  aeroponicTower      AeroponicTower @relation(fields: [aeroponicTowerID], references: [id])
 
   @@id([timeCaptured, aeroponicTowerID])
 }
