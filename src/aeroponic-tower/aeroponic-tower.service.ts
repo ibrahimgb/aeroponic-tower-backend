@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaDbService } from 'src/prisma_db/prisma_db.service';
-import { AddAeroponicTowerDot, changePumpIntervalDto } from './dot';
+import { changePumpIntervalDto } from './dot';
 
 @Injectable()
 export class AeroponicTowerService {
@@ -14,6 +14,11 @@ export class AeroponicTowerService {
     });
 
     return newTower;
+  }
+
+  async getAllAeroponicTowers() {
+    const allAeroponicTowers = await this.prisma.aeroponicTower.findMany();
+    return allAeroponicTowers;
   }
 
   async getAllPumpInterval() {
