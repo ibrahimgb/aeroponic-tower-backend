@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  hash      String?
-  firstName String?
-  lastName  String?
+  id                    Int                     @id @default(autoincrement())
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  email                 String                  @unique
+  hash                  String?
+  firstName             String?
+  lastName              String?
+  phoneNumber Int?
+  usersOnAeroponicTower UsersOnAeroponicTower[]
 
   @@map("users")
 }
@@ -31,15 +33,25 @@ model PumpInterval {
   AeroponicTower AeroponicTower[]
 }
 
-model AeroponicTower {
-  id             String       @unique
-  name           String?
-  size           Int?         @default(8)
-  content        String?      @default("nothing yet")
-  SensorData     SensorData[]
-  pumpIntervalID Int          @default(1)
-  PumpInterval   PumpInterval @relation(fields: [pumpIntervalID], references: [id])
+model UsersOnAeroponicTower {
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 
+  aeroponicTower   AeroponicTower @relation(fields: [aeroponicTowerId], references: [id])
+  aeroponicTowerId String
+
+  @@id([userId, aeroponicTowerId])
+}
+
+model AeroponicTower {
+  id                    String                  @unique
+  name                  String?
+  size                  Int?                    @default(8)
+  content               String?                 @default("nothing yet")
+  SensorData            SensorData[]
+  pumpIntervalID        Int                     @default(1)
+  PumpInterval          PumpInterval            @relation(fields: [pumpIntervalID], references: [id])
+  usersOnAeroponicTower UsersOnAeroponicTower[]
   //PumpIntervalID Int
   //pumpInterval   PumpInterval @relation(fields: [PumpIntervalID], references: [id])
 }
