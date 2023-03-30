@@ -24,17 +24,35 @@ export class SensorService {
       // console.error(error);
     }
     if (!airoponicTower) {
+      const newUser = await this.prisma.user.create({
+        data: {
+          firstName: 'ibrahim',
+          lastName: 'gb',
+          email: 'ibrahim.guoual.b@gmail.com',
+          phoneNumber: 2136634235,
+        },
+      });
+
       const newAiroponicTower = await this.prisma.aeroponicTower.create({
         data: {
           id: reading.AeroponicTowerId,
           pumpIntervalID: 1,
         },
       });
+
+      const usersOnAeroponicTower =
+        await this.prisma.usersOnAeroponicTower.create({
+          data: {
+            userId: newUser.id,
+            aeroponicTowerId: newAiroponicTower.id,
+          },
+        });
     }
     console.log(airoponicTower);
     let time = new Date(0);
     time.setUTCSeconds(reading.epochTime);
     const id: string = reading.AeroponicTowerId;
+    //console.log(reading);
     const newReading = await this.prisma.sensorData.create({
       data: {
         aeroponicTowerID: id,
