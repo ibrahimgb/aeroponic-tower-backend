@@ -34,6 +34,8 @@ export class UserService {
         avatar: filename,
       },
     });
+
+    return editedUser;
   }
 
   async removeAvatar(id: number) {
