@@ -20,6 +20,7 @@ model User {
   lastName              String?
   phoneNumber Int?
   usersOnAeroponicTower UsersOnAeroponicTower[]
+  avatar String?
 
   @@map("users")
 }

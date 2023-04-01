@@ -30,7 +30,14 @@ export class SensorService {
           lastName: 'gb',
           email: 'ibrahim.guoual.b@gmail.com',
           phoneNumber: 2136634235,
+          hash: '$argon2id$v=19$m=65536,t=3,p=4$rDOSaMjqnjljwUa5GXIy1w$MUKax8Vrhr/jZR8oiQTZejhYAM93F3jyNn5VkXsMttg',
         },
+
+        // {
+        //   "firstName":"ibrahim",
+        //   "email":"ibrahim.guoual.b@gmail.com",
+        //   "password":"waahA3ami"
+        // }
       });
 
       const newAiroponicTower = await this.prisma.aeroponicTower.create({

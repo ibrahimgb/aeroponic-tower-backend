@@ -25,6 +25,28 @@ export class UserService {
     return newUser;
   }
 
+  async addAvatar(filename: string, id: number) {
+    const editedUser = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        avatar: filename,
+      },
+    });
+  }
+
+  async removeAvatar(id: number) {
+    const editedUser = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        avatar: null,
+      },
+    });
+  }
+
   async editUser(user: any) {
     const editedUser = await this.prisma.user.update({
       where: {
