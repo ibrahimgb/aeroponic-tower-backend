@@ -35,7 +35,7 @@ export class UserService {
       },
     });
 
-    return editedUser;
+    return editedUser.avatar;
   }
 
   async removeAvatar(id: number) {
