@@ -2,9 +2,11 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Request,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -12,6 +14,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '@prisma/client';
 import { diskStorage } from 'multer';
+import { join } from 'path';
+import { Observable, of } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
@@ -61,11 +65,44 @@ export class UserController {
   @UseInterceptors(FileInterceptor('file', storage))
   uploadFile(@UploadedFile() file, @Request() req) {
     const user: User = req.user;
+    console.log(file);
 
     return this.userService.addAvatar(file.filename, user.id);
     // .pipe(
     //     tap((user: User) => console.log(user)),
     //     map((user:User) => ({profileImage: user.profileImage}))
     // )
+  }
+
+  // @Get('profile-image/:imagename')
+  // findProfileImage(
+  //   @Param('imagename') imagename,
+  //   @Res() res,
+  // ): Observable<Object> {
+  //   console.log('getting');
+  //   return of(
+  //     res.sendFile(join(process.cwd(), 'uploads/profileimages/' + imagename)),
+  //   );
+  // }
+
+  @Get('profile-image/:imagename')
+  findProfileImage(
+    @Param('imagename') imagename,
+    @Res() res,
+  ): Observable<Object> {
+    console.log('getting');
+    return of(
+      res.sendFile(join(process.cwd(), 'uploads/profileimages/' + imagename)),
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('profile-image/')
+  finduserProfileImage(@Request() req, @Res() res): Observable<Object> {
+    console.log('getting');
+    const user: User = req.user;
+    return of(
+      res.sendFile(join(process.cwd(), 'uploads/profileimages/' + user.avatar)),
+    );
   }
 }
