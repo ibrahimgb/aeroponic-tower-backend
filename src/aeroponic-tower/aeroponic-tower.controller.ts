@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { PumpInterval } from '@prisma/client';
 import { AeroponicTowerService } from './aeroponic-tower.service';
 import { AddAeroponicTowerDot, changePumpIntervalDto } from './dot';
@@ -14,10 +14,10 @@ export class AeroponicTowerController {
     return this.aeroponicTowerService.addTower(tower);
   }
 
-  @Get('pumpInterval')
-  pumpInterval() {
-    return this.aeroponicTowerService.getAllPumpInterval();
-  }
+  // @Get('pumpInterval')
+  // pumpInterval() {
+  //   return this.aeroponicTowerService.getAllPumpInterval();
+  // }
 
   @Post('newPumpInterval')
   newPumpInterval(@Body() pumpInterval: PumpInterval) {
@@ -32,5 +32,20 @@ export class AeroponicTowerController {
   @Get('all')
   all() {
     return this.aeroponicTowerService.getAllAeroponicTowers();
+  }
+
+  @Post('editTower')
+  editTower(@Body() tower: AddAeroponicTowerDot) {
+    return this.aeroponicTowerService.editTower(tower);
+  }
+
+  @Get('towerPumpInterval/:id')
+  towerPumpInterval(@Param('id') id) {
+    return this.aeroponicTowerService.getTowerPumpInterval(id);
+  }
+
+  @Get('allPumpIntervals')
+  allPumpInterval() {
+    return this.aeroponicTowerService.getAllPumpIntervals();
   }
 }

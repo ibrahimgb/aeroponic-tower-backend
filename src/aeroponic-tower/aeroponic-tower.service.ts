@@ -16,14 +16,49 @@ export class AeroponicTowerService {
     return newTower;
   }
 
+  editTower(tower) {
+    let img = null;
+
+    if (tower.image) {
+      img = tower.image;
+    }
+
+    const editedTower = this.prisma.aeroponicTower.update({
+      where: {
+        id: tower.id,
+      },
+      data: {
+        name: tower.name,
+        content: tower.content,
+        size: tower.size,
+        image: img != null ? img : undefined, // If null, don't include in update!
+      },
+    });
+    return editedTower;
+  }
+
+  getTowerPumpInterval(id) {
+    const interval = this.prisma.pumpInterval.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    return interval;
+  }
+
+  getAllPumpIntervals() {
+    const intervals = this.prisma.pumpInterval.findMany();
+    return intervals;
+  }
+
   async getAllAeroponicTowers() {
     const allAeroponicTowers = await this.prisma.aeroponicTower.findMany();
     return allAeroponicTowers;
   }
 
-  async getAllPumpInterval() {
-    const pumpInterval = await this.prisma.pumpInterval.findMany();
-  }
+  // async getAllPumpInterval() {
+  //   const pumpInterval = await this.prisma.pumpInterval.findMany();
+  // }
 
   async newPumpInterval(pumpInterval: any) {
     const newPumpInterval = await this.prisma.pumpInterval.create({
