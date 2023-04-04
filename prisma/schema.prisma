@@ -53,6 +53,9 @@ model AeroponicTower {
   pumpIntervalID        Int                     @default(1)
   PumpInterval          PumpInterval            @relation(fields: [pumpIntervalID], references: [id])
   usersOnAeroponicTower UsersOnAeroponicTower[]
+  image                 String?
+  dayStarted            DateTime                @default(now())
+  daysToHarvest         Int                     @default(10)
   //PumpIntervalID Int
   //pumpInterval   PumpInterval @relation(fields: [PumpIntervalID], references: [id])
 }
