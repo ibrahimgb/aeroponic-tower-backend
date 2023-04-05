@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -94,6 +95,18 @@ export class UserController {
     return of(
       res.sendFile(join(process.cwd(), 'uploads/profileimages/' + imagename)),
     );
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete('profile-image/')
+  deleteAvatar(@Request() req) {
+    const user: User = req.user;
+
+    return this.userService.deleteAvatar(user.id);
+    // .pipe(
+    //     tap((user: User) => console.log(user)),
+    //     map((user:User) => ({profileImage: user.profileImage}))
+    // )
   }
 
   @UseGuards(JwtGuard)

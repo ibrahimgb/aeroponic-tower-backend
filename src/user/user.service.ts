@@ -38,6 +38,19 @@ export class UserService {
     return editedUser.avatar;
   }
 
+  async deleteAvatar(id: number) {
+    const editedUser = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        avatar: null,
+      },
+    });
+
+    return editedUser.avatar;
+  }
+
   async removeAvatar(id: number) {
     const editedUser = await this.prisma.user.update({
       where: {
