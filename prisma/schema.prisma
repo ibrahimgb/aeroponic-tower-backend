@@ -18,9 +18,9 @@ model User {
   hash                  String?
   firstName             String?
   lastName              String?
-  phoneNumber Int?
+  phoneNumber           Int?
   usersOnAeroponicTower UsersOnAeroponicTower[]
-  avatar String?
+  avatar                String?
 
   @@map("users")
 }
@@ -45,7 +45,7 @@ model UsersOnAeroponicTower {
 }
 
 model AeroponicTower {
-  id                    String                  @unique
+  id                    String                  @id @unique
   name                  String?
   size                  Int?                    @default(8)
   content               String?                 @default("nothing yet")
