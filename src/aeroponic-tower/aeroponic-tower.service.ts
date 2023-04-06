@@ -30,7 +30,7 @@ export class AeroponicTowerService {
       data: {
         name: tower.name,
         content: tower.content,
-        size: tower.size,
+        size: Number(tower.size),
         image: img != null ? img : undefined, // If null, don't include in update!
       },
     });
@@ -101,5 +101,50 @@ export class AeroponicTowerService {
         pumpIntervalID: (await newPumpInterval).id,
       },
     });
+  }
+
+  async addImage(filename: string, id: string) {
+    const editedTower = await this.prisma.aeroponicTower.update({
+      where: {
+        id: id,
+      },
+      data: {
+        image: filename,
+      },
+    });
+
+    return editedTower;
+  }
+
+  async getImageFileName(id: string): Promise<string> {
+    const res = await this.prisma.aeroponicTower.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
+    return res.image;
+  }
+
+  async getTower(id: string) {
+    const res = await this.prisma.aeroponicTower.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    return res;
+  }
+
+  async updatePumpInterval(intervalID: number, towerId: string) {
+    const editedTower = await this.prisma.aeroponicTower.update({
+      where: {
+        id: towerId,
+      },
+      data: {
+        pumpIntervalID: intervalID,
+      },
+    });
+
+    return editedTower;
   }
 }
