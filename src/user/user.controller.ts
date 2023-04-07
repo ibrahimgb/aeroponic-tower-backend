@@ -110,6 +110,56 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
+  @Get('getGroup')
+  getGroup(@Request() req) {
+    const user: User = req.user;
+    console.log(user);
+    return this.userService.getGroup(user.id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('getAllMyGroupUsers')
+  getGroupUsers(@Request() req) {
+    const user: User = req.user;
+
+    console.log(user);
+    return this.userService.getGroupUsers(user);
+    // .pipe(
+    //     tap((user: User) => console.log(user)),
+    //     map((user:User) => ({profileImage: user.profileImage}))
+    // )
+  }
+  //Working
+  @UseGuards(JwtGuard)
+  @Post('addUserToGroup')
+  addUserToGroup(@Request() req, @Body() emailObj: any) {
+    const user: User = req.user;
+
+    console.log(user);
+    return this.userService.addUserToGroup(user, emailObj.email);
+    // .pipe(
+    //     tap((user: User) => console.log(user)),
+    //     map((user:User) => ({profileImage: user.profileImage}))
+    // )
+  }
+
+  @UseGuards(JwtGuard) //TODO:
+  @Patch('removeUserFromGroup/:id')
+  removeUserFromGroup(@Request() req, @Param('id') id) {
+    const user: User = req.user;
+
+    //console.log(user);
+    //if (user.isAdmin) {
+    return this.userService.removeUserFromGroup(Number(id), user);
+    //}
+
+    // .pipe(
+    //     tap((user: User) => console.log(user)),
+    //     map((user:User) => ({profileImage: user.profileImage}))
+    // )
+  }
+
+  @UseGuards(JwtGuard)
   @Get('profile-image/')
   finduserProfileImage(@Request() req, @Res() res): Observable<Object> {
     console.log('getting');

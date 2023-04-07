@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClient } from '@prisma/client';
-import { url } from 'inspector';
-
 @Injectable()
 export class PrismaDbService extends PrismaClient {
   constructor(confing: ConfigService) {
@@ -15,7 +13,7 @@ export class PrismaDbService extends PrismaClient {
     });
   }
 
-  createUser() {
+  async createUser() {
     const user = this.user.create({
       data: {
         email: 'ee',
