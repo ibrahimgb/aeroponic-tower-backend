@@ -144,7 +144,7 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard) //TODO:
-  @Patch('removeUserFromGroup/:id')
+  @Delete('removeUserFromGroup/:id')
   removeUserFromGroup(@Request() req, @Param('id') id) {
     const user: User = req.user;
 
