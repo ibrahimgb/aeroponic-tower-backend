@@ -10,6 +10,8 @@ import { PrismaDbService } from './prisma_db/prisma_db.service';
 import { SensorController } from './sensor/sensor.controller';
 import { SensorService } from './sensor/sensor.service';
 import { UserModule } from './user/user.module';
+import { LandingPageController } from './landing-page/landing-page.controller';
+import { LandingPageService } from './landing-page/landing-page.service';
 
 @Module({
   imports: [
@@ -18,12 +20,13 @@ import { UserModule } from './user/user.module';
     UserModule,
     AuthModule,
   ],
-  controllers: [AppController, SensorController, AeroponicTowerController],
+  controllers: [AppController, SensorController, AeroponicTowerController, LandingPageController],
   providers: [
     AppService,
     PrismaDbService,
     SensorService,
     AeroponicTowerService,
+    LandingPageService,
   ],
 })
 export class AppModule {}
