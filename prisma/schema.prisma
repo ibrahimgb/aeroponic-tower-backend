@@ -22,8 +22,8 @@ model User {
   usersOnAeroponicTower UsersOnAeroponicTower[]
   avatar                String?
   groups                UsersOnGroup[]
-  mainAdminOf Int?
-  group Group?
+  mainAdminOf           Int?
+  group                 Group?
 
   @@map("users")
 }
@@ -39,11 +39,11 @@ model UsersOnGroup {
 }
 
 model Group {
-  id    Int            @id @default(autoincrement())
-  name  String?
-  users UsersOnGroup[]
-  adminId Int @unique  
-  user   User @relation(fields: [adminId], references: [id])
+  id      Int            @id @default(autoincrement())
+  name    String?
+  users   UsersOnGroup[]
+  adminId Int            @unique
+  user    User           @relation(fields: [adminId], references: [id])
 }
 
 model PumpInterval {
@@ -99,4 +99,17 @@ model SensorData {
   aeroponicTower      AeroponicTower @relation(fields: [aeroponicTowerID], references: [id])
 
   @@id([timeCaptured, aeroponicTowerID])
+}
+
+model ContactUs {
+  id          Int     @id @default(autoincrement())
+  firstName   String
+  lastName    String?
+  email       String
+  phoneNumber String?
+  message     String
+}
+
+model EmailSubscribe {
+  email String @id @unique
 }
