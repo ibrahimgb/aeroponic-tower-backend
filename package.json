@@ -16,6 +16,7 @@
     "db:test-db:deploy": "dotenv -e .env.test -- prisma migrate deploy",
     "db:test-db:restart": "npm run db:test-db:rm  && npm run db:test-db:up && sleep 5 && npm run db:test-db:deploy",
     "build": "nest build",
+    "migrate-and-build": " prisma migrate deploy && nest build ",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
